@@ -14,3 +14,18 @@ def add_default_statuses(sender,**kwargs):
         statuses=['PENDING','PROCESSING','COMPLETED','CANCELLED']
         for status in statuses:
             OrderStatus.objects.get__or__create(name=status)
+
+from django.utils import timezone
+
+class Coupon(models.Model):
+    code=models.CharField(max_length=50,unique=True)
+    discount=models.DecimalField(max_digits=5,decimal_place=2)
+    is_active=models.BooleanField(default=True)
+    valid_from=models.DateTimeField()
+    valid_to=models.DataTimeField()
+
+    def __str__(self):
+        return self.code
+    def is_valid(self):
+        now=timezone.now()
+        return self.is_active and self.valid_from<=now<=self.valid_to    
