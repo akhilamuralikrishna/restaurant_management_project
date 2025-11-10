@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import *
+from .views import CoupleValidationView
 
-urlpatterns = [
+urlpatterns = [ path('validate/',CoupleValidationView.as_view(),name='coupon-validate')
+
     
 ]
