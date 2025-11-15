@@ -22,4 +22,17 @@ class CouponValidationView(APIview):
                 'message':'Coupon is valid',
                 'discount':float(coupon.discount)
             },status=status.HTTP_200_OK)
-        return Response({'error':'Coupon expired or inactive'},status=status.HTTP_400_BAD_REQUEST)            
+        return Response({'error':'Coupon expired or inactive'},status=status.HTTP_400_BAD_REQUEST)
+
+
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.generals import ListAPIView
+from .models import Order 
+from .serializers import OrderSerializer
+
+class OrderHistoryView(ListAPIView):
+    serializer_class=OrderSerializer
+    permission_classes=[IsAuthenticated]
+
+    def get_queryset(self):
+        return  Order.objects.filter(user=self.request.user)order_by('-order_date')
