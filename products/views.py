@@ -24,3 +24,8 @@ class ItemView(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+class FeaturedMenuItemsView(APIView):
+    def get(self,request):
+        items=MenuItem.objects.filter(is_featured=True)
+        serializer=ItemSerializer(items,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)        
