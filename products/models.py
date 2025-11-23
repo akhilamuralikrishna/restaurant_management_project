@@ -9,4 +9,12 @@ class Item(models.Model):
 
     def __str__(self):
         return str(self.item_name)
+class NeutritionalInformation(models.Model):
+    menu_item=models.ForeignKey(MenuIten,on_delete=models.CASCADE)
+    calories=models.IntegerField()
+    protein_grams=models.DecimalField(max_digits=5,decimal_places=2)
+    fat_grams=models.DecimalField(max_digits=5,decimal_places=2)
+    carbohydrates_grams=DecimalField(max_digits=5,decimal_places=2)
+    def __str__(self):
+        return f'{self.menu_item.item_name}-{self.calories}calories'        
         
