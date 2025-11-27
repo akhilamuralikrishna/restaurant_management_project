@@ -16,5 +16,15 @@ class NeutritionalInformation(models.Model):
     fat_grams=models.DecimalField(max_digits=5,decimal_places=2)
     carbohydrates_grams=DecimalField(max_digits=5,decimal_places=2)
     def __str__(self):
-        return f'{self.menu_item.item_name}-{self.calories}calories'        
+        return f'{self.menu_item.item_name}-{self.calories}calories'
+class Ingredient(models.Model):
+    name = models.CharField(max_length = 100)
+    def __str__(self):
+        return self.name
+class MenuItem(models.Model):
+    name = models.CharField(max_length = 100)
+    ingredients = models.ManyToManyField(Ingredient,related_name='menu_items')
+
+    def __str__(self):
+        return self.name                       
         
