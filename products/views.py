@@ -41,4 +41,12 @@ class SearchItemAPIView(APIView):
         return Response({'count':paginator.count,
         'total_pages':paginator.num_pages,
         'current_page':page_obj.number,
-        'results':serializer.data},status=status.HTTP_200_OK)              
+        'results':serializer.data},status=status.HTTP_200_OK)
+class MenuItemByCategory(APIView):
+    def get(self,request):
+        category_name=request.query_params.get('category')
+        if not category_name:
+            return Response({'error':'Use ?category=CategoryName'},status= status.HTTP_400_BAD_REQUEST)
+        items = MenuItem.objects.filter(category__name=category_name)
+        serializer = MenuItemSerializer(items, many= True)
+        return Response(serializer.data,status=status.HTTP_200_OK)                        
