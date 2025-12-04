@@ -21,10 +21,16 @@ class Ingredient(models.Model):
     name = models.CharField(max_length = 100)
     def __str__(self):
         return self.name
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+    def __str__(self):
+        return self.name        
 class MenuItem(models.Model):
     name = models.CharField(max_length = 100)
     ingredients = models.ManyToManyField(Ingredient,related_name='menu_items')
+    category = models.ForeignKey(Category,on_delete=models.CASCADE,related_name='menu_item')
 
     def __str__(self):
-        return self.name                       
+        return self.name
+
         
