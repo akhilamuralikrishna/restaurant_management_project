@@ -4,6 +4,7 @@ from rest_framework.response import Response
 from products.models import MenuItem
 from products.serializers import IngredientSerializer
 from .serializers import MenuItemSerializer
+from .serializers import RetrieveAPIView
 
 class MenuItemIngredientsView(APIView):
     def get(self,request,menu_item_id):
@@ -25,7 +26,11 @@ class UpdateMenuItem(APIView):
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data,status=status.HTTP_200_OK)
-        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)                          
+        return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+class TableDetailAPIView(RetrieveAPIView):
+    queryset = Table.objects.all()
+    serializer_class = TableSerializer
 
 
 
