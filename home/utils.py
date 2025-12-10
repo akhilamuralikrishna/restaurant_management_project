@@ -16,4 +16,15 @@ def validate_phone_number(phone):
     - 10 to 12th digits
     - Optional hyphens or spaces
     '''
-    pattern = r'^(\+?\d{1,3}[- ]?)?\d{10,12}$'             
+    pattern = r'^(\+?\d{1,3}[- ]?)?\d{10,12}$'
+
+
+from django.core.validators import validate_email
+from django.core.exceptions import ValidationError
+
+def is_valid_email(email):
+    try:
+        validate_email(email)
+        return True
+    except ValidationError:
+        return False                     
