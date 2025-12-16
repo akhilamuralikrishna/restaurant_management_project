@@ -28,4 +28,22 @@ class Coupon(models.Model):
         return self.code
     def is_valid(self):
         now=timezone.now()
-        return self.is_active and self.valid_from<=now<=self.valid_to    
+        return self.is_active and self.valid_from<=now<=self.valid_to 
+
+class OrderManager(models.Manager):
+    def get_active_orders(self):
+        return self.filter(status__in=['pending','processing'])
+class Order(models.Model):
+    STATUS_CHOICES =[
+        ('pending','Pending'),
+        ('processing','Processing'),
+        ('completed','Completed'),
+        ('cancelled','Cancelled'),
+    ]
+    order_name=models.CharField(max_length=100)
+    status=models.CharField(max_length=20,choices=STATUS_CHOICES)
+
+    objects=OrderManager()
+    def __str__(self):
+        return self.order_name       
+
